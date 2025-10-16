@@ -1,0 +1,9 @@
+# Core Flask Dependencies - only what's actually used
+Flask==2.3.3
+Flask-Cors==4.0.0
+
+# AI Dependencies
+google-generativeai==0.3.2
+
+# Environment Variables
+python-dotenv==1.0.0
