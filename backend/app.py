@@ -533,7 +533,9 @@ Try these stock analysis queries:
         
     except Exception as e:
         print(f"Error in agent endpoint: {str(e)}")
-        return jsonify({"response": "Sorry, I encountered an error. Please try again."}), 500@app.route('/auto-bank-data', methods=['GET'])
+        return jsonify({"response": "Sorry, I encountered an error. Please try again."}), 500
+
+@app.route('/auto-bank-data', methods=['GET'])
 def auto_bank_data():
     """Get user bank account data from MongoDB using email"""
     from database.mongo_manager import find_user_by_email

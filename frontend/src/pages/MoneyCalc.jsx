@@ -16,6 +16,12 @@ const formatCompact = (v) => {
   return num.toLocaleString('en-IN', { maximumFractionDigits: 0 });
 };
 
+// Safely format a number to 1 decimal place without throwing on undefined/NaN
+const fixed1 = (v) => {
+  const num = Number(v);
+  return Number.isFinite(num) ? num.toFixed(1) : '0.0';
+};
+
 const MoneyCalc = () => {
   const [mode, setMode] = useState('lumpsum'); // lumpsum | sip | emi | ppf | goal
 
@@ -156,11 +162,11 @@ const MoneyCalc = () => {
     if (mode === 'lumpsum') {
       text = `Lump Sum Investment:\nPrincipal: ₹${format(principal)}\nRate: ${rate}% for ${years} years\nFuture Value: ₹${format(result.fv)}\nGain: ₹${format(result.gain)} (${result.gainPercent.toFixed(1)}%)`;
     } else if (mode === 'sip') {
-      text = `SIP Investment:\nMonthly: ₹${format(monthly)}\nRate: ${rate}% for ${sipYears} years\nFuture Value: ₹${format(result.fv)}\nInvested: ₹${format(result.invested)}\nGain: ₹${format(result.gain)} (${result.gainPercent.toFixed(1)}%)`;
+      text = `SIP Investment:\nMonthly: ₹${format(monthly)}\nRate: ${rate}% for ${sipYears} years\nFuture Value: ₹${format(result.fv)}\nInvested: ₹${format(result.invested)}\nGain: ₹${format(result.gain)} (${fixed1(result.gainPercent)}%)`;
     } else if (mode === 'emi') {
-      text = `Loan EMI:\nLoan Amount: ₹${format(loanAmount)}\nRate: ${rate}% for ${tenureMonths} months\nEMI: ₹${format(result.emi)}\nTotal Payable: ₹${format(result.total)}\nInterest: ₹${format(result.interest)} (${result.interestPercent.toFixed(1)}%)`;
+      text = `Loan EMI:\nLoan Amount: ₹${format(loanAmount)}\nRate: ${rate}% for ${tenureMonths} months\nEMI: ₹${format(result.emi)}\nTotal Payable: ₹${format(result.total)}\nInterest: ₹${format(result.interest)} (${fixed1(result.interestPercent)}%)`;
     } else if (mode === 'ppf') {
-      text = `PPF Investment:\nAnnual: ₹${format(ppfAmount)}\nFor ${ppfYears} years\nMaturity Value: ₹${format(result.fv)}\nInvested: ₹${format(result.invested)}\nGain: ₹${format(result.gain)} (${result.gainPercent.toFixed(1)}%)`;
+      text = `PPF Investment:\nAnnual: ₹${format(ppfAmount)}\nFor ${ppfYears} years\nMaturity Value: ₹${format(result.fv)}\nInvested: ₹${format(result.invested)}\nGain: ₹${format(result.gain)} (${fixed1(result.gainPercent)}%)`;
     } else if (mode === 'goal') {
       text = `Goal Planning:\nTarget: ₹${format(targetAmount)} in ${goalYears} years\nSIP Required: ₹${format(result.sipRequired)}/month\nLump Sum Required: ₹${format(result.lumpRequired)} today`;
     }
@@ -507,7 +513,7 @@ const MoneyCalc = () => {
                       </div>
                     </div>
                     <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                      Total return: {result.gainPercent.toFixed(1)}% over {years} years
+                      Total return: {fixed1(result.gainPercent)}% over {years} years
                     </div>
                   </div>
                 )}
@@ -529,7 +535,7 @@ const MoneyCalc = () => {
                       </div>
                     </div>
                     <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                      Total return: {result.gainPercent.toFixed(1)}% over {sipYears} years
+                      Total return: {fixed1(result.gainPercent)}% over {sipYears} years
                     </div>
                   </div>
                 )}
@@ -551,7 +557,7 @@ const MoneyCalc = () => {
                       </div>
                     </div>
                     <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                      Total payable: ₹{format(result.total)} ({result.interestPercent.toFixed(1)}% interest)
+                      Total payable: ₹{format(result.total)} ({fixed1(result.interestPercent)}% interest)
                     </div>
                   </div>
                 )}
@@ -573,7 +579,7 @@ const MoneyCalc = () => {
                       </div>
                     </div>
                     <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                      Total return: {result.gainPercent.toFixed(1)}% over {ppfYears} years (Tax-free!)
+                      Total return: {fixed1(result.gainPercent)}% over {ppfYears} years (Tax-free!)
                     </div>
                   </div>
                 )}
