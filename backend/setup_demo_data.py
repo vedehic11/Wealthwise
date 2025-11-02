@@ -10,7 +10,17 @@ def setup_demo_data():
     MONGODB_URI = os.getenv("MONGODB_URI")
     
     try:
-        client = MongoClient(MONGODB_URI)
+        client = MongoClient(
+            MONGODB_URI,
+            tls=True,
+            tlsAllowInvalidCertificates=False,
+            tlsAllowInvalidHostnames=False,
+            retryWrites=True,
+            retryReads=True,
+            serverSelectionTimeoutMS=30000,
+            connectTimeoutMS=30000,
+            socketTimeoutMS=30000
+        )
         db = client["wealthwise"]
         
         # Create collections

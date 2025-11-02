@@ -2,6 +2,10 @@
 Flask==2.3.3
 Flask-Cors==4.0.0
 
+# Database Dependencies
+pymongo==4.6.0
+dnspython==2.4.2
+
 # AI Dependencies
 google-generativeai==0.3.2
 

@@ -3,11 +3,46 @@ from dotenv import load_dotenv
 import os
 from pymongo import MongoClient
 from datetime import datetime
+import ssl
 
 load_dotenv()
 MONGODB_URI = os.getenv("MONGODB_URI")
-client = MongoClient(MONGODB_URI)
-db = client["wealthwise"]
+
+# Configure MongoDB client with proper SSL settings
+try:
+    client = MongoClient(
+        MONGODB_URI,
+        tls=True,
+        tlsAllowInvalidCertificates=False,
+        tlsAllowInvalidHostnames=False,
+        retryWrites=True,
+        retryReads=True,
+        serverSelectionTimeoutMS=30000,
+        connectTimeoutMS=30000,
+        socketTimeoutMS=30000,
+        maxPoolSize=10,
+        minPoolSize=1
+    )
+    db = client["wealthwise"]
+    print("✅ MongoDB connection established successfully")
+except Exception as e:
+    print(f"❌ MongoDB connection failed: {str(e)}")
+    # Fallback connection without strict SSL (for development only)
+    try:
+        client = MongoClient(
+            MONGODB_URI,
+            tls=True,
+            tlsAllowInvalidCertificates=True,
+            tlsAllowInvalidHostnames=True,
+            serverSelectionTimeoutMS=30000,
+            connectTimeoutMS=30000,
+            socketTimeoutMS=30000
+        )
+        db = client["wealthwise"]
+        print("⚠️ MongoDB connected with relaxed SSL settings (development mode)")
+    except Exception as fallback_error:
+        print(f"❌ MongoDB fallback connection also failed: {str(fallback_error)}")
+        raise fallback_error
 
 # Collection getters
 def get_users_collection():

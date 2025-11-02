@@ -60,7 +60,17 @@ def build_demo_liabilities() -> List[Dict]:
 def enrich_user(email: str) -> Dict:
     load_dotenv()
     uri = os.getenv("MONGODB_URI")
-    client = MongoClient(uri)
+    client = MongoClient(
+        uri,
+        tls=True,
+        tlsAllowInvalidCertificates=False,
+        tlsAllowInvalidHostnames=False,
+        retryWrites=True,
+        retryReads=True,
+        serverSelectionTimeoutMS=30000,
+        connectTimeoutMS=30000,
+        socketTimeoutMS=30000
+    )
     db = client["wealthwise"]
     users = db["users"]
 

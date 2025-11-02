@@ -11,8 +11,18 @@ def setup_database():
     MONGODB_URI = os.getenv("MONGODB_URI")
     
     try:
-        # Connect to MongoDB
-        client = MongoClient(MONGODB_URI)
+        # Connect to MongoDB with proper SSL settings
+        client = MongoClient(
+            MONGODB_URI,
+            tls=True,
+            tlsAllowInvalidCertificates=False,
+            tlsAllowInvalidHostnames=False,
+            retryWrites=True,
+            retryReads=True,
+            serverSelectionTimeoutMS=30000,
+            connectTimeoutMS=30000,
+            socketTimeoutMS=30000
+        )
         db = client["wealthwise"]
         
         # Create collections with indexes
