@@ -25,7 +25,23 @@ except Exception as e:
         return f"Demo response for {demo_scenario}: This is a placeholder financial path response."
 
 app = Flask(__name__)
-CORS(app)
+
+# Configure CORS based on environment
+# In production (separate deployment), allow frontend domain
+# In development, allow localhost
+frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:5173')
+allowed_origins = [
+    frontend_url,
+    'http://localhost:5173',  # Vite dev server
+    'http://localhost:3000',  # Alternative dev port
+]
+
+# Allow Vercel preview deployments (wildcard subdomain)
+if frontend_url.endswith('.vercel.app'):
+    base_domain = frontend_url.replace('https://', '').split('.')[0]
+    allowed_origins.append(f'https://{base_domain}-*.vercel.app')
+
+CORS(app, origins=allowed_origins, supports_credentials=True)
 
 # --- Custom Authentication Endpoints ---
 from werkzeug.security import generate_password_hash, check_password_hash
