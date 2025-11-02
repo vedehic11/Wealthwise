@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Target, DollarSign, Home, Briefcase, GraduationCap, Car, Plus, Trash2, X, Edit2 } from 'lucide-react';
 import { useUserData } from '../../../context/UserDataContext';
+import { SERVER_URL } from '../../../utils';
 
 const formatToINR = (amount) => {
   const numericAmount = typeof amount === 'string' ? parseFloat(amount.replace(/[₹,]/g, '')) : amount;
@@ -54,7 +55,7 @@ export const GoalsTab = () => {
           description: g.description || ''
         })),
       };
-      await fetch('http://127.0.0.1:5000/user/goals', {
+      await fetch(`${SERVER_URL}/user/goals`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

@@ -2,6 +2,7 @@
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Mail, Lock, User, BarChart2, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { SERVER_URL } from '../utils';
 
 const AuthComponent = () => {
   const { pathname } = useLocation();
@@ -23,7 +24,7 @@ const AuthComponent = () => {
     setIsSubmitting(true);
     try {
       const endpoint = isSignIn ? '/login' : '/register';
-      const res = await fetch(`http://127.0.0.1:5000${endpoint}`, {
+      const res = await fetch(`${SERVER_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
@@ -61,7 +62,7 @@ const AuthComponent = () => {
     try {
       const demoCreds = { email: 'vedehi@gmail.com', password: '12345678' };
       setForm({ ...form, ...demoCreds });
-      const res = await fetch(`http://127.0.0.1:5000/login`, {
+      const res = await fetch(`${SERVER_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(demoCreds)

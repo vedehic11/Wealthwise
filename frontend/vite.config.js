@@ -10,5 +10,7 @@ export default defineConfig({
   define: {
     'process.env.ROUTER_FUTURE_v7_startTransition': 'true',
     'process.env.ROUTER_FUTURE_v7_relativeSplatPath': 'true'
-  }
+  },
+  // Expose environment variables to the client
+  envPrefix: 'VITE_'
 })

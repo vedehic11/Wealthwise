@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { DollarSign, Plus, Trash2, Edit2, X, Briefcase, Gift, Landmark, TrendingUp } from 'lucide-react';
 import { useUserData } from '../../../context/UserDataContext';
+import { SERVER_URL } from '../../../utils';
 
 const categoryIcons = {
   salary: Briefcase,
@@ -51,7 +52,7 @@ export const IncomeTab = () => {
           date: i.date || '2024-01-01'
         })),
       };
-      await fetch('http://127.0.0.1:5000/user/incomes', {
+      await fetch(`${SERVER_URL}/user/incomes`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

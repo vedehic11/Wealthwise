@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { DollarSign, Plus, Trash2, Edit2, X, ShoppingCart, Home, Car, Utensils, Heart, Plane, Smartphone, Zap, CreditCard, Gamepad2, User } from 'lucide-react';
 import { useUserData } from '../../../context/UserDataContext';
+import { SERVER_URL } from '../../../utils';
 
 const categoryIcons = {
   shopping: ShoppingCart,
@@ -65,7 +66,7 @@ export const ExpensesTab = () => {
           description: e.description || ''
         })),
       };
-      await fetch('http://127.0.0.1:5000/user/expenses', {
+      await fetch(`${SERVER_URL}/user/expenses`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

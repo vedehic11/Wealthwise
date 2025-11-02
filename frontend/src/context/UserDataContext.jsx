@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { SERVER_URL } from '../utils';
 
 const UserDataContext = createContext();
 
@@ -36,7 +37,7 @@ export const UserDataProvider = ({ children }) => {
           setUserData(prev => ({ ...prev, assets: [], liabilities: [], incomes: [], expenses: [], goals: [] }));
           return;
         }
-        const res = await fetch(`http://127.0.0.1:5000/user-portfolio?email=${encodeURIComponent(currentEmail)}`);
+        const res = await fetch(`${SERVER_URL}/user-portfolio?email=${encodeURIComponent(currentEmail)}`);
         const payload = await res.json();
 
         // Map backend payload to frontend shapes

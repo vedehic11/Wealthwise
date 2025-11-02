@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { DollarSign, Plus, Trash2, Edit2, X, Home, Car, CreditCard, Wallet, Building, Briefcase } from 'lucide-react';
 import { useUserData } from '../../../context/UserDataContext';
+import { SERVER_URL } from '../../../utils';
 
 const categoryIcons = {
   mortgage: Home,
@@ -44,7 +45,7 @@ export const LiabilitiesTab = () => {
           type: l.category,
         })),
       };
-      await fetch('http://127.0.0.1:5000/user/liabilities', {
+      await fetch(`${SERVER_URL}/user/liabilities`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

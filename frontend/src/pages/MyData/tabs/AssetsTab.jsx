@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DollarSign, Plus, Trash2, Edit2, X, Building2, Briefcase, Car, Landmark, Coins, CreditCard } from 'lucide-react';
 import { useUserData } from '../../../context/UserDataContext';
+import { SERVER_URL } from '../../../utils';
 
 const categoryIcons = {
   realestate: Building2,
@@ -57,7 +58,7 @@ export const AssetsTab = () => {
           notes: a.notes || ''
         })),
       };
-      await fetch('http://127.0.0.1:5000/user/assets', {
+      await fetch(`${SERVER_URL}/user/assets`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
